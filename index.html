@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DSA Digital Manual - Practical Solutions (Q1 - Q20)</title>
+
+  <!-- Tailwind CSS -->
+  <script src="vendor/tailwindcss.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          },
+          fontFamily: {
+            mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'Courier New', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Prism Syntax Highlighting -->
+  <link rel="stylesheet" href="vendor/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="vendor/prism-line-numbers.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="h-full flex flex-col font-sans antialiased text-slate-200 bg-slate-950 selection:bg-indigo-500 selection:text-white">
+
+  <!-- TOP HEADER / SEARCH BAR -->
+  <header class="sticky top-0 z-40 w-full border-b border-slate-800 bg-slate-900/90 backdrop-blur px-4 py-3 sm:px-6">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+
+      <!-- Brand & Mobile Toggle -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button id="mobileSidebarToggle" aria-label="Toggle Sidebar" class="md:hidden p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
+            &lt;/&gt;
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-white leading-tight flex items-center gap-2">
+              DSA Digital Manual
+              <span class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-medium">DSA Repo.pdf</span>
+            </h1>
+            <p class="text-xs text-slate-400 hidden sm:block">Lab Practical Problem Solutions &amp; Study Guide</p>
+          </div>
+        </div>
+
+        <!-- Quick stats (Desktop/Tablet) -->
+        <div class="flex items-center gap-2">
+          <span class="text-xs px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700/60 font-mono">
+            <span class="text-emerald-400 font-semibold">20</span> Problems
+          </span>
+        </div>
+      </div>
+
+      <!-- SEARCH BAR -->
+      <div class="flex-1 max-w-xl relative">
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+          <input
+            type="text"
+            id="conceptSearchBar"
+            placeholder="Search concepts (e.g. binary search trees, stacks, minimum spanning trees)..."
+            class="w-full pl-10 pr-9 py-2 bg-slate-800/90 text-sm text-slate-100 placeholder-slate-400 rounded-lg border border-slate-700/80 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
+          >
+          <button id="clearSearchBtn" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Quick filter chips below search on small screens -->
+        <div class="flex items-center gap-1.5 mt-2 overflow-x-auto pb-1 text-xs no-scrollbar">
+          <span class="text-slate-400 text-[11px] uppercase tracking-wider font-semibold mr-1">Quick:</span>
+          <button class="quick-chip px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" data-tag="binary search trees">Binary Search Trees</button>
+          <button class="quick-chip px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" data-tag="stacks">Stacks</button>
+          <button class="quick-chip px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" data-tag="minimum spanning trees">Minimum Spanning Trees</button>
+          <button class="quick-chip px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" data-tag="sorting">Sorting</button>
+          <button class="quick-chip px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition" data-tag="pathfinding">Pathfinding</button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <div class="flex-1 flex overflow-hidden relative">
+
+    <!-- SIDEBAR OVERLAY (FOR MOBILE) -->
+    <div id="mobileSidebarOverlay" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-30 hidden md:hidden"></div>
+
+    <!-- PERSISTENT SIDEBAR NAVIGATION -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 md:static w-80 md:w-84 lg:w-96 flex-shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col h-full transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out">
+
+      <!-- Filter tabs -->
+      <div class="p-3 border-b border-slate-800/80 bg-slate-900/60">
+        <div class="grid grid-cols-3 gap-1 bg-slate-950 p-1 rounded-lg text-xs font-medium">
+          <button id="filterAll" class="filter-tab active py-1.5 px-2 rounded-md bg-indigo-600 text-white text-center transition">
+            All (20)
+          </button>
+          <button id="filterPartA" class="filter-tab py-1.5 px-2 rounded-md text-slate-400 hover:text-slate-200 text-center transition">
+            Part A (C++)
+          </button>
+          <button id="filterPartB" class="filter-tab py-1.5 px-2 rounded-md text-slate-400 hover:text-slate-200 text-center transition">
+            Part B (Python)
+          </button>
+        </div>
+        <div class="flex items-center justify-between mt-2 px-1 text-[11px] text-slate-400">
+          <span id="resultsCount">Showing 20 of 20 problems</span>
+          <span class="text-slate-500">Q1 - Q20</span>
+        </div>
+      </div>
+
+      <!-- Problem list -->
+      <nav id="problemList" class="flex-1 overflow-y-auto p-3 space-y-1.5 divide-y divide-slate-800/40">
+        <!-- Dynamically populated problem items -->
+      </nav>
+
+      <!-- Sidebar footer -->
+      <div class="p-3 border-t border-slate-800 bg-slate-950/50 text-[11px] text-slate-400 flex items-center justify-between">
+        <span>Part A: Q1-Q8 (C++)</span>
+        <span class="text-slate-600">•</span>
+        <span>Part B: Q9-Q20 (Python)</span>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT VIEW -->
+    <main class="flex-1 overflow-y-auto bg-slate-950 p-4 sm:p-6 lg:p-8" id="mainContent">
+      <div class="max-w-5xl mx-auto space-y-6">
+
+        <!-- Top Navigation & Breadcrumbs -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
+          <div class="flex items-center gap-2 text-xs text-slate-400 font-mono">
+            <span id="viewPartBadge" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-semibold">Part A</span>
+            <span>/</span>
+            <span id="viewIdBadge" class="text-indigo-400 font-bold">Q1</span>
+            <span>/</span>
+            <span id="viewTopicShort" class="text-slate-300">Searching</span>
+          </div>
+
+          <!-- Prev / Next Controls -->
+          <div class="flex items-center gap-2">
+            <button id="prevProblemBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 hover:text-white transition border border-slate-700/60 disabled:opacity-40 disabled:cursor-not-allowed">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+              <span>Previous</span>
+            </button>
+            <button id="nextProblemBtn" class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 hover:text-white transition border border-slate-700/60 disabled:opacity-40 disabled:cursor-not-allowed">
+              <span>Next</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Problem Header Title & Badges -->
+        <div class="space-y-3">
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span id="badgeQuestionId" class="text-sm font-bold font-mono px-3 py-1 rounded-md bg-indigo-600 text-white shadow-sm shadow-indigo-500/20">Q1</span>
+            <span id="badgeLanguage" class="text-xs font-semibold px-2.5 py-1 rounded-md bg-sky-950 text-sky-400 border border-sky-800/80 uppercase tracking-wide">C++</span>
+            <span id="badgeDifficulty" class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-950 text-emerald-400 border border-emerald-800/80">Easy</span>
+            <span id="badgeTopic" class="text-xs font-medium px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700">Searching</span>
+            <span id="badgeSourceFile" class="text-xs font-mono text-slate-400 ml-auto hidden sm:inline">Q1_LinearSearch.cpp</span>
+          </div>
+          <h2 id="viewTitle" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Linear Search in Student Database
+          </h2>
+        </div>
+
+        <!-- STUDY OVERVIEW CARD -->
+        <section class="rounded-xl border border-slate-800 bg-slate-900/60 overflow-hidden shadow-lg">
+          <div class="px-5 py-3.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+              </svg>
+              <h3 class="text-sm font-bold uppercase tracking-wider text-slate-200">Study Overview &amp; Specifications</h3>
+            </div>
+            <span class="text-xs text-slate-400">Core DSA Concept</span>
+          </div>
+
+          <div class="p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+            <!-- Topic -->
+            <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800/80">
+              <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Topic</div>
+              <div id="overviewTopic" class="text-sm font-semibold text-white">Searching &amp; Dynamic Arrays</div>
+            </div>
+
+            <!-- Key Concepts -->
+            <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800/80">
+              <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Key Concepts</div>
+              <div id="overviewConcepts" class="flex flex-wrap gap-1">
+                <!-- dynamic tags -->
+              </div>
+            </div>
+
+            <!-- Time Complexity -->
+            <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800/80">
+              <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Time Complexity</div>
+              <div id="overviewTimeComplexity" class="text-sm font-mono font-bold text-amber-400">O(n)</div>
+              <div id="overviewSpaceComplexity" class="text-[11px] font-mono text-slate-400 mt-0.5">Space: O(n)</div>
+            </div>
+
+            <!-- Difficulty & Category -->
+            <div class="p-3.5 rounded-lg bg-slate-950/70 border border-slate-800/80">
+              <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">Difficulty Level</div>
+              <div id="overviewDifficulty" class="text-sm font-bold text-emerald-400">Easy</div>
+              <div id="overviewPart" class="text-[11px] text-slate-400 mt-0.5">Part A (C++ Implementation)</div>
+            </div>
+
+          </div>
+
+          <div id="overviewNotesWrapper" class="px-5 py-3 bg-slate-950/40 border-t border-slate-800/60 text-xs text-slate-300 flex items-start gap-2">
+            <svg class="w-4 h-4 text-indigo-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span id="overviewNotes">Algorithmic note</span>
+          </div>
+        </section>
+
+        <!-- EXACT PROBLEM STATEMENT -->
+        <section class="rounded-xl border border-slate-800 bg-slate-900/60 overflow-hidden shadow-lg">
+          <div class="px-5 py-3.5 bg-slate-900 border-b border-slate-800 flex items-center gap-2">
+            <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+            </svg>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-200">Exact Problem Statement</h3>
+          </div>
+          <div class="p-5 space-y-4">
+            <p id="viewStatement" class="text-sm leading-relaxed text-slate-200">
+              Problem statement goes here...
+            </p>
+
+            <!-- Sample Input / Output collapsible or card -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+              <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800/80">
+                <div class="text-[11px] font-mono uppercase tracking-wider text-indigo-400 font-semibold mb-1 flex items-center justify-between">
+                  <span>Sample Input</span>
+                  <span class="text-[10px] text-slate-500 font-sans">User prompt format</span>
+                </div>
+                <pre id="viewSampleInput" class="text-xs font-mono text-slate-300 whitespace-pre-wrap">Sample input</pre>
+              </div>
+              <div class="p-3 rounded-lg bg-slate-950/80 border border-slate-800/80">
+                <div class="text-[11px] font-mono uppercase tracking-wider text-emerald-400 font-semibold mb-1 flex items-center justify-between">
+                  <span>Expected Output</span>
+                  <span class="text-[10px] text-slate-500 font-sans">Execution result</span>
+                </div>
+                <pre id="viewSampleOutput" class="text-xs font-mono text-slate-300 whitespace-pre-wrap">Sample output</pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CODE VIEWER WITH SYNTAX HIGHLIGHTING -->
+        <section class="rounded-xl border border-slate-800 bg-slate-900/60 overflow-hidden shadow-2xl">
+          <!-- Code header toolbar -->
+          <div class="px-5 py-3 bg-slate-900 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-1.5">
+                <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+              </div>
+              <div class="h-4 w-px bg-slate-700/80 mx-1"></div>
+              <div class="flex items-center gap-2">
+                <span id="codeFileName" class="text-xs font-mono font-medium text-slate-200">Q1_LinearSearch.cpp</span>
+                <span id="codeLangTag" class="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-indigo-300 border border-indigo-500/30">C++</span>
+              </div>
+            </div>
+
+            <!-- Toolbar actions -->
+            <div class="flex items-center gap-2">
+              <button id="copyCodeBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium shadow-md shadow-indigo-600/20 transition active:scale-95">
+                <svg id="copyIcon" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+                <span id="copyBtnText">Copy to Clipboard</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Code container -->
+          <div class="relative bg-[#1d1f21] overflow-x-auto text-sm leading-relaxed p-4 font-mono">
+            <pre class="line-numbers"><code id="codeBlock" class="language-cpp"></code></pre>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2 bg-emerald-600 text-white px-4 py-2.5 rounded-xl shadow-xl text-xs font-medium">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <span id="toastMessage">Copied to clipboard!</span>
+  </div>
+
+  <!-- Data and Application Scripts -->
+  <script src="data/problems.js"></script>
+  <script src="vendor/prism.min.js"></script>
+  <script src="vendor/prism-c.min.js"></script>
+  <script src="vendor/prism-cpp.min.js"></script>
+  <script src="vendor/prism-python.min.js"></script>
+  <script src="vendor/prism-line-numbers.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
